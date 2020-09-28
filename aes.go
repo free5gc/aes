@@ -387,7 +387,8 @@ func AesSetupEnc(rk []uint32, key []uint8, keybits int) int {
 	if keybits == 128 {
 		for {
 			temp = rk[3]
-			rk[4] = rk[0] ^ (Te4[(temp>>16)&0xff] & 0xff000000) ^ (Te4[(temp>>8)&0xff] & 0x00ff0000) ^ (Te4[(temp)&0xff] & 0x0000ff00) ^ (Te4[(temp>>24)] & 0x000000ff) ^ rcon[i]
+			rk[4] = rk[0] ^ (Te4[(temp>>16)&0xff] & 0xff000000) ^ (Te4[(temp>>8)&0xff] & 0x00ff0000) ^
+				(Te4[(temp)&0xff] & 0x0000ff00) ^ (Te4[(temp>>24)] & 0x000000ff) ^ rcon[i]
 			rk[5] = rk[1] ^ rk[4]
 			rk[6] = rk[2] ^ rk[5]
 			rk[7] = rk[3] ^ rk[6]
@@ -429,7 +430,8 @@ func AesSetupEnc(rk []uint32, key []uint8, keybits int) int {
 	if keybits == 192 {
 		for {
 			temp = rk[5]
-			rk[6] = rk[0] ^ (Te4[(temp>>16)&0xff] & 0xff000000) ^ (Te4[(temp>>8)&0xff] & 0x00ff0000) ^ (Te4[(temp)&0xff] & 0x0000ff00) ^ (Te4[(temp>>24)] & 0x000000ff) ^ rcon[i]
+			rk[6] = rk[0] ^ (Te4[(temp>>16)&0xff] & 0xff000000) ^ (Te4[(temp>>8)&0xff] & 0x00ff0000) ^
+				(Te4[(temp)&0xff] & 0x0000ff00) ^ (Te4[(temp>>24)] & 0x000000ff) ^ rcon[i]
 			rk[7] = rk[1] ^ rk[6]
 			rk[8] = rk[2] ^ rk[7]
 			rk[9] = rk[3] ^ rk[8]
@@ -477,7 +479,8 @@ func AesSetupEnc(rk []uint32, key []uint8, keybits int) int {
 	if keybits == 256 {
 		for {
 			temp = rk[7]
-			rk[8] = rk[0] ^ (Te4[(temp>>16)&0xff] & 0xff000000) ^ (Te4[(temp>>8)&0xff] & 0x00ff0000) ^ (Te4[(temp)&0xff] & 0x0000ff00) ^ (Te4[(temp>>24)] & 0x000000ff) ^ rcon[i]
+			rk[8] = rk[0] ^ (Te4[(temp>>16)&0xff] & 0xff000000) ^ (Te4[(temp>>8)&0xff] & 0x00ff0000) ^
+				(Te4[(temp)&0xff] & 0x0000ff00) ^ (Te4[(temp>>24)] & 0x000000ff) ^ rcon[i]
 			rk[9] = rk[1] ^ rk[8]
 			rk[10] = rk[2] ^ rk[9]
 			rk[11] = rk[3] ^ rk[10]
@@ -488,7 +491,8 @@ func AesSetupEnc(rk []uint32, key []uint8, keybits int) int {
 			}
 
 			temp = rk[11]
-			rk[12] = rk[4] ^ (Te4[(temp>>24)] & 0xff000000) ^ (Te4[(temp>>16)&0xff] & 0x00ff0000) ^ (Te4[(temp>>8)&0xff] & 0x0000ff00) ^ (Te4[(temp)&0xff] & 0x000000ff)
+			rk[12] = rk[4] ^ (Te4[(temp>>24)] & 0xff000000) ^ (Te4[(temp>>16)&0xff] & 0x00ff0000) ^
+				(Te4[(temp>>8)&0xff] & 0x0000ff00) ^ (Te4[(temp)&0xff] & 0x000000ff)
 			rk[13] = rk[5] ^ rk[12]
 			rk[14] = rk[6] ^ rk[13]
 			rk[15] = rk[7] ^ rk[14]
@@ -656,15 +660,19 @@ func AesEncrypt(rk []uint32, nrounds int, plaintext []uint8, ciphertext []uint8)
 	 * map cipher state to byte array block:
 	 */
 
-	s0 = (Te4[(t0>>24)] & 0xff000000) ^ (Te4[(t1>>16)&0xff] & 0x00ff0000) ^ (Te4[(t2>>8)&0xff] & 0x0000ff00) ^ (Te4[(t3)&0xff] & 0x000000ff) ^ rk[0]
+	s0 = (Te4[(t0>>24)] & 0xff000000) ^ (Te4[(t1>>16)&0xff] & 0x00ff0000) ^ (Te4[(t2>>8)&0xff] & 0x0000ff00) ^
+		(Te4[(t3)&0xff] & 0x000000ff) ^ rk[0]
 	PUTU32(ciphertext, s0)
 
-	s1 = (Te4[(t1>>24)] & 0xff000000) ^ (Te4[(t2>>16)&0xff] & 0x00ff0000) ^ (Te4[(t3>>8)&0xff] & 0x0000ff00) ^ (Te4[(t0)&0xff] & 0x000000ff) ^ rk[1]
+	s1 = (Te4[(t1>>24)] & 0xff000000) ^ (Te4[(t2>>16)&0xff] & 0x00ff0000) ^ (Te4[(t3>>8)&0xff] & 0x0000ff00) ^
+		(Te4[(t0)&0xff] & 0x000000ff) ^ rk[1]
 	PUTU32(ciphertext[4:], s1) //PUTU32(ciphertext +  4, s1);
 
-	s2 = (Te4[(t2>>24)] & 0xff000000) ^ (Te4[(t3>>16)&0xff] & 0x00ff0000) ^ (Te4[(t0>>8)&0xff] & 0x0000ff00) ^ (Te4[(t1)&0xff] & 0x000000ff) ^ rk[2]
+	s2 = (Te4[(t2>>24)] & 0xff000000) ^ (Te4[(t3>>16)&0xff] & 0x00ff0000) ^ (Te4[(t0>>8)&0xff] & 0x0000ff00) ^
+		(Te4[(t1)&0xff] & 0x000000ff) ^ rk[2]
 	PUTU32(ciphertext[8:], s2) //PUTU32(ciphertext +  8, s2);
 
-	s3 = (Te4[(t3>>24)] & 0xff000000) ^ (Te4[(t0>>16)&0xff] & 0x00ff0000) ^ (Te4[(t1>>8)&0xff] & 0x0000ff00) ^ (Te4[(t2)&0xff] & 0x000000ff) ^ rk[3]
+	s3 = (Te4[(t3>>24)] & 0xff000000) ^ (Te4[(t0>>16)&0xff] & 0x00ff0000) ^ (Te4[(t1>>8)&0xff] & 0x0000ff00) ^
+		(Te4[(t2)&0xff] & 0x000000ff) ^ rk[3]
 	PUTU32(ciphertext[12:], s3) //PUTU32(ciphertext + 12, s3);
 }
